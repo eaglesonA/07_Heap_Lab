@@ -60,7 +60,7 @@ Heap<Pri,T>::Heap(){
 
 template<class Pri, class T>
 Heap<Pri,T>::~Heap(){
-  //destructor
+  delete[] backingArray; 
 }
 
 template<class Pri, class T>
