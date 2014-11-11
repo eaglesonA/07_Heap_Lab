@@ -35,6 +35,7 @@ private:
   // and copying over the data
   void grow();
 
+  void swap(unsigned long a, unsigned long b);
   //Check the item at index, and make sure it is in the right place.
   // If not, swap it up the "tree" of the heap until you find the right
   // place
@@ -50,7 +51,7 @@ private:
 
 template<class Pri, class T>
 Heap<Pri,T>::Heap(){
-  arrSize=20;
+  arrSize=START_SIZE;
   numItems=0;
   backingArray = new std::pair<Pri, T>[arrSize]; 
 }
@@ -73,12 +74,26 @@ template<class Pri, class T>
 void Heap<Pri,T>::add(std::pair<Pri,T> toAdd){
   if(numItems>=arrSize)
   { grow(); }
-  // add into array and bubble up at some point
+  backingArray[numItems] = toAdd;
+  numItems++;
+  bubbleUp(numItems);
 }
 
 template<class Pri, class T>
+void Heap<Pri,T>::swap(unsigned long a, unsigned long b){
+  std::pair<Pri, T> temp = backingArray[b];
+  backingArray[b] = backingArray[a];
+  backingArray[a] = temp;
+}
+
+
+template<class Pri, class T>
 void Heap<Pri,T>::bubbleUp(unsigned long index){
-  //TODO
+	if(index>0 && (backingArray[index] > backingArray[index-1]))
+  {
+	 swap(numItems, (index/2)-1);
+	 bubbleUp((index/2)-1);
+  }
 }
 
 template<class Pri, class T>
@@ -88,8 +103,12 @@ void Heap<Pri,T>::trickleDown(unsigned long index){
 
 template<class Pri, class T>
 std::pair<Pri,T> Heap<Pri,T>::remove(){
-  //TODO
-  std::pair<Pri,T> tmp;
+	if(arrSize<=0)
+	{ throw std::string("array is empty in remove");}
+  std::pair<Pri,T> tmp= backingArray[0];
+  numItems--;
+  backingArray[0] = backingArray[numItems];
+  trickleDown(0);
   return tmp;
 }
 
