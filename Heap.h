@@ -66,10 +66,11 @@ Heap<Pri,T>::~Heap(){
 template<class Pri, class T>
 void Heap<Pri,T>::grow(){
   std::pair<Pri, T>* tempArray = new std::pair<Pri, T>[arrSize*2];
-  for(int i=0; i<arrSize+1; i++)
+  for(int i=0; i<arrSize; i++)
   { tempArray[i] = backingArray[i]; }
+  delete[] backingArray;
   backingArray = tempArray;
-  delete[] tempArray; 
+  arrSize = arrSize*2;
 }
 
 template<class Pri, class T>
@@ -91,11 +92,10 @@ void Heap<Pri,T>::swap(unsigned long a, unsigned long b){
 
 template<class Pri, class T>
 void Heap<Pri,T>::bubbleUp(unsigned long index){
-	if(index>0 && (backingArray[index] > backingArray[index-1]))
+	while(index>0 && (backingArray[index] < backingArray[(index-1)/2]))
   {
-	 swap(numItems, (index/2)-1);
-	 bubbleUp((index/2)-1);
-  }
+	 swap(numItems, (index-1)/2);
+	}
 }
 
 
@@ -108,7 +108,6 @@ void Heap<Pri,T>::trickleDown(unsigned long index){
 		if(backingArray[leftChild] > backingArray[index])
 		{ 
 			swap(leftChild, index);
-			trickleDown(leftChild);
 		}
 	}
 	if(arrSize>=(2*index)+2)
@@ -117,7 +116,6 @@ void Heap<Pri,T>::trickleDown(unsigned long index){
 		if(backingArray[rightChild] > backingArray[index])
 		{ 
 			swap(rightChild, index);
-			trickleDown(rightChild);
 		}
 	}
 
