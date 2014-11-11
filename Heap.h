@@ -35,7 +35,9 @@ private:
   // and copying over the data
   void grow();
 
+  //method to swap items in backingArray
   void swap(unsigned long a, unsigned long b);
+
   //Check the item at index, and make sure it is in the right place.
   // If not, swap it up the "tree" of the heap until you find the right
   // place
@@ -96,9 +98,29 @@ void Heap<Pri,T>::bubbleUp(unsigned long index){
   }
 }
 
+
 template<class Pri, class T>
 void Heap<Pri,T>::trickleDown(unsigned long index){
-  //TODO
+
+	if(arrSize>=(2*index)+1)
+	{ 
+		unsigned long leftChild = (2*index)+1;
+		if(backingArray[leftChild] > backingArray[index])
+		{ 
+			swap(leftChild, index);
+			trickleDown(leftChild);
+		}
+	}
+	if(arrSize>=(2*index)+2)
+	{
+		unsigned long rightChild = (2*index)+2;
+		if(backingArray[rightChild] > backingArray[index])
+		{ 
+			swap(rightChild, index);
+			trickleDown(rightChild);
+		}
+	}
+
 }
 
 template<class Pri, class T>
