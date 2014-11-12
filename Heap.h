@@ -79,7 +79,8 @@ void Heap<Pri,T>::add(std::pair<Pri,T> toAdd){
   { grow(); }
   backingArray[numItems] = toAdd;
   numItems++;
-  bubbleUp(numItems);
+  if(numItems>=1)
+  {bubbleUp(numItems-1);}
 }
 
 template<class Pri, class T>
@@ -92,30 +93,41 @@ void Heap<Pri,T>::swap(unsigned long a, unsigned long b){
 
 template<class Pri, class T>
 void Heap<Pri,T>::bubbleUp(unsigned long index){
-	while(index>0 && (backingArray[index] < backingArray[(index-1)/2]))
-  {
-	 swap(numItems, (index-1)/2);
+	if(index==1)
+	{	if(backingArray[0] > backingArray[1])
+			{ swap(0,1); }
+	}
+	else
+	{	while(index>0 && (backingArray[index] < backingArray[(index-1)/2]))
+		 {
+			 swap(index, (index-1)/2); 
+			 bubbleUp(index-1);
+		}
 	}
 }
 
 
 template<class Pri, class T>
 void Heap<Pri,T>::trickleDown(unsigned long index){
-
-	if(arrSize>=(2*index)+1)
-	{ 
-		unsigned long leftChild = (2*index)+1;
-		if(backingArray[leftChild] > backingArray[index])
-		{ 
-			swap(leftChild, index);
-		}
-	}
-	if(arrSize>=(2*index)+2)
+	
+	if(numItems>=(2*index)+2)
 	{
 		unsigned long rightChild = (2*index)+2;
-		if(backingArray[rightChild] > backingArray[index])
+		if(backingArray[rightChild] < backingArray[index])
 		{ 
 			swap(rightChild, index);
+			trickleDown(index+rightChild);
+			trickleDown(0);
+		}
+	}
+	if(numItems>=(2*index)+1)
+	{ 
+		unsigned long leftChild = (2*index)+1;
+		if(backingArray[leftChild] < backingArray[index])
+		{ 
+			swap(leftChild, index);
+			trickleDown(index+leftChild);
+			trickleDown(0);
 		}
 	}
 
