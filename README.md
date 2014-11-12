@@ -24,8 +24,8 @@ Remove is the same, except it calls trickleDown (which moves the node with least
 2. I delete backing Array in the destructor, and delete local variables in methods (anything with "new").
 
 #### 2. Exercises 10.1 and 10.2 from http://opendatastructures.org/ods-cpp/10_3_Discussion_Exercises.html
-10.1:
 
+10.1:
 Add 7)
 7 would be added to the left side of 16.
 16 and 7 would swap.
@@ -38,7 +38,6 @@ Add 3)
 3 is now the root.
 
 10.2:
-
 Remove 6)
 Swap 6 with 55 (6 is the root, and 55 is the last node)
 Six is removed from the array.
@@ -58,4 +57,4 @@ left child = 2i+1
 right child = 2i+2
 
 #### 4. What is one question that confused you about this exercise, or one piece of advice you would share with students next semester?
-Is it possible to call bubbleUp and trickleDown recursively? 
+Mainly, just how to use the debugger- I did it by hand (on paper, going through the method)
